@@ -23,6 +23,8 @@ public:
 
 	NetworkRequestChannel(const unsigned short _port_no, void * (*connection_handler) (int *));
 
+	NetworkRequestChannel(int);
+
 	~NetworkRequestChannel();
 
 	string send_request(string _request);

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include <functional>
 #include <pthread.h>
 
 #define MAXDATASIZE 500 
@@ -15,6 +16,10 @@ void *get_in_addr(struct sockaddr *sa)
     }
 
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
+}
+
+NetworkRequestChannel::NetworkRequestChannel(const int fd) {
+	sockfd = fd;
 }
 
 NetworkRequestChannel::NetworkRequestChannel(const string _server_host_name, const unsigned short _port_no) {
@@ -102,10 +107,10 @@ NetworkRequestChannel::NetworkRequestChannel(const unsigned short _port_no, void
 		int connection = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
 		if(connection >= 0)
 		{	
-			std::cout << "Found connection" << connection << "! Setting up..." << std::endl;
-			pthread_t thread;
-			pthread_create(&thread, NULL, connection_handler, (int*)connection);
-			pthread_detach(thread);
+			//std::cout << "Found connection" << connection << "! Setting up..." << std::endl;
+			std::function<void*(int*)> f (connection_handler);
+			std:thread t(f, &connection);
+			t.detach();
 		}
 	}
 }
@@ -151,11 +156,13 @@ void asdf(int* a) {
 	cout << "connection handleer";
 }
 
-void connection_handler(int fd) {
-	
+void* connection_handler(int* fd) {
+	NetworkRequestChannel net(*fd);	
+
+	cout << "Oh goody I got here" << endl;
 }
 
 int main() {
-	NetworkRequestChannel net(1234, asdf);
+	NetworkRequestChannel net(1234, connection_handler);
 	
 }
