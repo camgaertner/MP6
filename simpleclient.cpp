@@ -70,6 +70,8 @@ int main(int argc, char * argv[]) {
 	int data_requests = 0;
 	int bounded_buffer_size = 0;
 	int worker_threads = 0;
+	string hostname = "build.tamu.edu";
+	int port = 1234;
     int opt;
     while ((opt = getopt(argc, argv, "n:b:w:")) != -1)
     {
@@ -84,6 +86,12 @@ int main(int argc, char * argv[]) {
         case 'w':
         	worker_threads = atoi(optarg);
         	break;
+		case 'h': 
+			hostname = optarg;
+			break;
+		case 'p'
+			port = atoi(optarg);
+			break;
         }
     }
     if (data_requests == 0)
