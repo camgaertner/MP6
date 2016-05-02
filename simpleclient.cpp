@@ -29,8 +29,7 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <cstdlib>
-
-#include "reqchannel.h"
+#include "NetworkRequestChannel.h"
 #include "RequestThread.h"
 #include "WorkerThread.h"
 #include "StatisticsThread.h"
@@ -66,17 +65,13 @@ using namespace std;
 /*--------------------------------------------------------------------------*/
 /* MAIN FUNCTION */
 /*--------------------------------------------------------------------------*/
-
-void pause_thread() 
-{
-	sleep(100);
-}
-
 int main(int argc, char * argv[]) {
 
 	int data_requests = 0;
 	int bounded_buffer_size = 0;
 	int worker_threads = 0;
+	string hostname = "build.tamu.edu";
+	int port = 1234;
     int opt;
     while ((opt = getopt(argc, argv, "n:b:w:")) != -1)
     {
@@ -91,6 +86,12 @@ int main(int argc, char * argv[]) {
         case 'w':
         	worker_threads = atoi(optarg);
         	break;
+		case 'h': 
+			hostname = optarg;
+			break;
+		case 'p'
+			port = atoi(optarg);
+			break;
         }
     }
     if (data_requests == 0)
@@ -158,29 +159,4 @@ int main(int argc, char * argv[]) {
 	
 	string reply4 = chan.send_request("quit");
 	usleep(1000000);
-	
-  /* -- Start sending a sequence of requests */
-
-  /*string reply1 = chan.send_request("hello");
-  cout << "Reply to request 'hello' is '" << reply1 << "'" << endl;
-
-  string reply2 = chan.send_request("data Joe Smith");
-  cout << "Reply to request 'data Joe Smith' is '" << reply2 << "'" << endl;
-
-  string reply3 = chan.send_request("data Jane Smith");
-  cout << "Reply to request 'data Jane Smith' is '" << reply3 << "'" << endl;
-
-  string reply5 = chan.send_request("newthread");
-  cout << "Reply to request 'newthread' is " << reply5 << "'" << endl;
-  RequestChannel chan2(reply5, RequestChannel::CLIENT_SIDE);
-
-  string reply6 = chan2.send_request("data John Doe");
-  cout << "Reply to request 'data John Doe' is '" << reply6 << "'" << endl;
-
-  string reply7 = chan2.send_request("quit");
-  cout << "Reply to request 'quit' is '" << reply7 << "'" << endl;
-  
-  cout << "Reply to request 'quit' is '" << reply4 << "'" << endl;
-
-  usleep(1000000);*/
 }
