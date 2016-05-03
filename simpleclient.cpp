@@ -71,7 +71,7 @@ int main(int argc, char * argv[]) {
 	int bounded_buffer_size = 0;
 	int worker_threads = 0;
 	string hostname = "build.tamu.edu";
-	int port = 1234;
+	int port = 3000;
     int opt;
 	//
     while ((opt = getopt(argc, argv, "n:b:w:h:p:")) != -1)
@@ -105,11 +105,11 @@ int main(int argc, char * argv[]) {
     	worker_threads = 5;
 
 
-	int pid = fork();
+	/*int pid = fork();
 	if(pid == 0) {
 		execvp("./dataserver", NULL);
 		return 0;
-	}
+	}*/
   // fill ints from arguments later
 	// int data_requests = 1000;
 	// int bounded_buffer_size = 5;
@@ -117,7 +117,7 @@ int main(int argc, char * argv[]) {
 	cout << "CLIENT STARTED:" << endl;
 
 	cout << "Establishing control channel... " << flush;
-	NetworkRequestChannel chan ("build.tamu.edu", port);
+	NetworkRequestChannel chan ("localhost", port);
 	cout << "done." << endl;
   
 	BoundedBuffer requests(bounded_buffer_size);
