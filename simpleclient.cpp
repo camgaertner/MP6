@@ -90,7 +90,7 @@ int main(int argc, char * argv[]) {
 		case 'h': 
 			hostname = optarg;
 			break;
-		case 'p'
+		case 'p':
 			port = atoi(optarg);
 			break;
         }
@@ -117,7 +117,7 @@ int main(int argc, char * argv[]) {
 	cout << "CLIENT STARTED:" << endl;
 
 	cout << "Establishing control channel... " << flush;
-	NetworkRequestChannel chan ("build.tamu.edu", port)
+	NetworkRequestChannel chan ("build.tamu.edu", port);
 	cout << "done." << endl;
   
 	BoundedBuffer requests(bounded_buffer_size);

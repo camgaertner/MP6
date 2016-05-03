@@ -156,17 +156,17 @@ void asdf(int* a) {
 	cout << "connection handleer";
 }
 
-void* connection_handler(int* fd) {
+/*void* connection_handler(int* fd) {
 	NetworkRequestChannel net(*fd);	
 
 	cout << "Oh goody I got here" << endl;
 
 	string yep = net.cread();
 	cout << yep << endl;
-}
+}*/
 
-int main() {
+/*int main() {
 	//NetworkRequestChannel net(1234, connection_handler);
 	NetworkRequestChannel net("localhost", 1234);
 	net.cwrite("hah");
-}
+}*/
