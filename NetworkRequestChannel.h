@@ -21,7 +21,7 @@ class NetworkRequestChannel {
 public:
 	NetworkRequestChannel(const string _server_host_name, const unsigned short _port_no);
 
-	NetworkRequestChannel(const unsigned short _port_no, void * (*connection_handler) (int *));
+	NetworkRequestChannel(const unsigned short _port_no, void * (*connection_handler) (int *), int);
 
 	NetworkRequestChannel(int);
 

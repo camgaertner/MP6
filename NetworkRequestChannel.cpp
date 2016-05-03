@@ -68,7 +68,7 @@ NetworkRequestChannel::NetworkRequestChannel(const string _server_host_name, con
 	
 }
 
-NetworkRequestChannel::NetworkRequestChannel(const unsigned short _port_no, void * (*connection_handler) (int *)) { 
+NetworkRequestChannel::NetworkRequestChannel(const unsigned short _port_no, void * (*connection_handler) (int *), int backlog) { 
 	struct sockaddr_in my_addr;
 
 	sockfd = socket(PF_INET, SOCK_STREAM, 0);
@@ -92,7 +92,7 @@ NetworkRequestChannel::NetworkRequestChannel(const unsigned short _port_no, void
 		exit(1);
 	}
 	
-	listen(sockfd, 5);
+	listen(sockfd, backlog);
 	
 	if (listen(sockfd, 10) == -1) {
         perror("listen");
