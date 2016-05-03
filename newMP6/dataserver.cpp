@@ -31,7 +31,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#include "reqchannel.h"
+//#include "reqchannel.h"
+#include "NetworkRequestChannel.h"
 
 using namespace std;
 
@@ -57,7 +58,7 @@ static int nthreads = 0;
 /* FORWARDS */
 /*--------------------------------------------------------------------------*/
 
-void handle_process_loop(RequestChannel & _channel);
+void handle_process_loop(NetworkRequestChannel & _channel);
 
 /*--------------------------------------------------------------------------*/
 /* LOCAL FUNCTIONS -- SUPPORT FUNCTIONS */
@@ -73,7 +74,7 @@ string int2string(int number) {
 /* LOCAL FUNCTIONS -- THREAD FUNCTIONS */
 /*--------------------------------------------------------------------------*/
 
-void * handle_data_requests(void * args) {
+/*void * handle_data_requests(void * args) {
 
   RequestChannel * data_channel =  (RequestChannel*)args;
 
@@ -84,23 +85,23 @@ void * handle_data_requests(void * args) {
   // -- Client has quit. We remove channel.
  
   delete data_channel;
-}
+}*/
 
 /*--------------------------------------------------------------------------*/
 /* LOCAL FUNCTIONS -- INDIVIDUAL REQUESTS */
 /*--------------------------------------------------------------------------*/
 
-void process_hello(RequestChannel & _channel, const string & _request) {
+void process_hello(NetworkRequestChannel & _channel, const string & _request) {
   _channel.cwrite("hello to you too");
 }
 
-void process_data(RequestChannel & _channel, const string &  _request) {
+void process_data(NetworkRequestChannel & _channel, const string &  _request) {
   usleep(1000 + (rand() % 5000));
   //_channel.cwrite("here comes data about " + _request.substr(4) + ": " + int2string(random() % 100));
   _channel.cwrite(int2string(rand() % 100));
 }
 
-void process_newthread(RequestChannel & _channel, const string & _request) {
+/*void process_newthread(RequestChannel & _channel, const string & _request) {
   int error;
   nthreads ++;
 
@@ -125,13 +126,13 @@ void process_newthread(RequestChannel & _channel, const string & _request) {
     fprintf(stderr, "p_create failed: %s\n", strerror(error));
   }  
 
-}
+}*/
 
 /*--------------------------------------------------------------------------*/
 /* LOCAL FUNCTIONS -- THE PROCESS REQUEST LOOP */
 /*--------------------------------------------------------------------------*/
 
-void process_request(RequestChannel & _channel, const string & _request) {
+void process_request(NetworkRequestChannel & _channel, const string & _request) {
 
   if (_request.compare(0, 5, "hello") == 0) {
     process_hello(_channel, _request);
@@ -139,25 +140,24 @@ void process_request(RequestChannel & _channel, const string & _request) {
   else if (_request.compare(0, 4, "data") == 0) {
     process_data(_channel, _request);
   }
-  else if (_request.compare(0, 9, "newthread") == 0) {
-    process_newthread(_channel, _request);
-  }
+  //else if (_request.compare(0, 9, "newthread") == 0) {
+  //  process_newthread(_channel, _request);
+  //}
   else {
     _channel.cwrite("unknown request");
   }
 
 }
 
-void handle_process_loop(RequestChannel & _channel) {
+void handle_process_loop(NetworkRequestChannel & _channel) {
 
   for(;;) {
 
-    cout << "Reading next request from channel (" << _channel.name() << ") ..." << flush;
+    cout << "Reading next request from channel (" << ") ..." << flush;
     string request = _channel.cread();
-    cout << " done (" << _channel.name() << ")." << endl;
+    cout << " done (" << ")." << endl;
     cout << "New request is " << request << endl;
-
-    if (request.compare("quit") == 0) {
+    if (request.compare(0, 4, "quit") == 0) {
       _channel.cwrite("bye");
       usleep(10000);          // give the other end a bit of time.
       break;                  // break out of the loop;
@@ -168,17 +168,23 @@ void handle_process_loop(RequestChannel & _channel) {
   
 }
 
+void* connection_handler(int* fd) {
+	NetworkRequestChannel net(*fd);	
+	handle_process_loop(net);
+}
+
 /*--------------------------------------------------------------------------*/
 /* MAIN FUNCTION */
 /*--------------------------------------------------------------------------*/
 
 int main(int argc, char * argv[]) {
 
+	NetworkRequestChannel net(3000, connection_handler);
   //  cout << "Establishing control channel... " << flush;
-  RequestChannel control_channel("control", RequestChannel::SERVER_SIDE);
+  //RequestChannel control_channel("control", RequestChannel::SERVER_SIDE);
   //  cout << "done.\n" << flush;
 
-  handle_process_loop(control_channel);
+  //handle_process_loop(control_channel);
 
 }
 
