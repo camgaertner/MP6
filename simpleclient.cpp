@@ -73,7 +73,8 @@ int main(int argc, char * argv[]) {
 	string hostname = "build.tamu.edu";
 	int port = 1234;
     int opt;
-    while ((opt = getopt(argc, argv, "n:b:w:")) != -1)
+	//
+    while ((opt = getopt(argc, argv, "n:b:w:h:p:")) != -1)
     {
         switch (opt)
         {
@@ -144,7 +145,7 @@ int main(int argc, char * argv[]) {
 	mutex mutex;
 	for(int i = 0; i < worker_threads; i++) {
 		threads.push_back(thread([&]() { 
-			WorkerThread().run(requests, mutex, buffers, chan);
+			WorkerThread().run(requests, mutex, buffers, hostname, port);
 		}));
 	}
 

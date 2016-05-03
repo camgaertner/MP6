@@ -1,5 +1,5 @@
 #include "BoundedBuffer.h"
-#include "reqchannel.h"
+#include "NetworkRequestChannel.h"
 #include <cassert>
 #include <cstring>
 #include <iostream>
@@ -17,7 +17,7 @@ class WorkerThread {
 	
 public:
 	
-	void run(BoundedBuffer&, mutex&, vector<BoundedBuffer>&, RequestChannel);
+	void run(BoundedBuffer&, mutex&, vector<BoundedBuffer>&, string, int);
 	
 private:
 	string name;

@@ -4,11 +4,10 @@
 
 using namespace std;
 
-void WorkerThread::run(BoundedBuffer& bb, mutex& lock, vector<BoundedBuffer>& responseBuffers, RequestChannel chan) {
+void WorkerThread::run(BoundedBuffer& bb, mutex& lock, vector<BoundedBuffer>& responseBuffers, string hostname, int port) {
 
 	lock.lock();
-	string str = chan.send_request("newthread");
-	RequestChannel mychan(str, RequestChannel::CLIENT_SIDE);
+	NetworkRequestChannel mychan(hostname, port);
 	lock.unlock();
 	while(true) {
 	
