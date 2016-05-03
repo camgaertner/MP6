@@ -116,7 +116,7 @@ int main(int argc, char * argv[]) {
 	cout << "CLIENT STARTED:" << endl;
 
 	cout << "Establishing control channel... " << flush;
-	RequestChannel chan("control", RequestChannel::CLIENT_SIDE);
+	NetworkRequestChannel chan ("build.tamu.edu", port)
 	cout << "done." << endl;
   
 	BoundedBuffer requests(bounded_buffer_size);
