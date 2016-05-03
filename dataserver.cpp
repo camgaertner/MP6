@@ -19,6 +19,10 @@
 /* INCLUDES */
 /*--------------------------------------------------------------------------*/
 
+#include <errno.h>
+#include <unistd.h>
+#include <getopt.h>
+#include <cstdlib>
 #include <cassert>
 #include <cstring>
 #include <sstream>
@@ -179,7 +183,23 @@ void* connection_handler(int* fd) {
 
 int main(int argc, char * argv[]) {
 
-	NetworkRequestChannel net(3000, connection_handler);
+	int port = 3000;
+	int backlog = 10;
+	int opt;
+    while ((opt = getopt(argc, argv, "p:b:")) != -1)
+    {
+        switch (opt)
+        {
+        case 'b':
+            backlog  = atoi(optarg);
+            break;
+		case 'p':
+			port = atoi(optarg);
+			break;
+        }
+    }
+
+	NetworkRequestChannel net(port, connection_handler, backlog);
   //  cout << "Establishing control channel... " << flush;
   //RequestChannel control_channel("control", RequestChannel::SERVER_SIDE);
   //  cout << "done.\n" << flush;
