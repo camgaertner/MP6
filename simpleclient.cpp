@@ -66,6 +66,14 @@ using namespace std;
 /* MAIN FUNCTION */
 /*--------------------------------------------------------------------------*/
 int main(int argc, char * argv[]) {
+	
+	for(int i = 0; i < 1; i++) {
+		int pid = fork();
+		if(pid == 0) {
+			execvp("./client", NULL);
+			return 0;
+		}
+	}
 	auto begin = std::chrono::steady_clock::now();
 	int data_requests = 0;
 	int bounded_buffer_size = 0;
