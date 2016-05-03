@@ -7,7 +7,7 @@ using namespace std;
 void WorkerThread::run(BoundedBuffer& bb, mutex& lock, vector<BoundedBuffer>& responseBuffers, string hostname, int port) {
 
 	lock.lock();
-	NetworkRequestChannel mychan(hostname, port);
+	NetworkRequestChannel mychan("localhost", 3000);
 	lock.unlock();
 	while(true) {
 	

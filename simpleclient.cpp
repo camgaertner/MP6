@@ -104,6 +104,15 @@ int main(int argc, char * argv[]) {
     if(request_channels == 0)
     	request_channels = 5;
 
+	/*int pid = fork();
+	if(pid == 0) {
+		execvp("./dataserver", NULL);
+		return 0;
+	}*/
+  // fill ints from arguments later
+	// int data_requests = 1000;
+	// int bounded_buffer_size = 5;
+	// int worker_threads = 5;
 	cout << "CLIENT STARTED:" << endl;
 	cout << "Establishing control channel... " << flush;
 	NetworkRequestChannel chan (hostname, port);
