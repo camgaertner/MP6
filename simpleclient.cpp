@@ -66,7 +66,7 @@ using namespace std;
 /* MAIN FUNCTION */
 /*--------------------------------------------------------------------------*/
 int main(int argc, char * argv[]) {
-
+	auto begin = std::chrono::steady_clock::now();
 	int data_requests = 0;
 	int bounded_buffer_size = 0;
 	int request_channels = 0;
@@ -159,4 +159,5 @@ int main(int argc, char * argv[]) {
 		reqs[i]->send_request("quit");
 	}
 	string reply4 = chan.send_request("quit");
+	std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - begin).count() <<std::endl;
 }
