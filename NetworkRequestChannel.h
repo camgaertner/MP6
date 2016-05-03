@@ -33,7 +33,6 @@ public:
 
 	int cwrite(string _msg);
 	
-private:
 	int sockfd;
 };
 

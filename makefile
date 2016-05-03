@@ -8,5 +8,5 @@ NetworkRequestChannel.o: NetworkRequestChannel.h NetworkRequestChannel.cpp
 dataserver: dataserver.cpp NetworkRequestChannel.o 
 	g++ -g -o dataserver dataserver.cpp NetworkRequestChannel.o -lpthread
 
-client: simpleclient.cpp RequestThread.cpp BoundedBuffer.cpp Semaphore.cpp WorkerThread.cpp StatisticsThread.cpp NetworkRequestChannel.o
-	g++ -std=c++11 -pthread -g -o client simpleclient.cpp RequestThread.cpp BoundedBuffer.cpp Semaphore.cpp WorkerThread.cpp StatisticsThread.cpp NetworkRequestChannel.o
+client: simpleclient.cpp RequestThread.cpp BoundedBuffer.cpp Semaphore.cpp StatisticsThread.cpp EventThread.cpp NetworkRequestChannel.o
+	g++ -std=c++11 -pthread -g -o client simpleclient.cpp RequestThread.cpp BoundedBuffer.cpp Semaphore.cpp EventThread.cpp  StatisticsThread.cpp NetworkRequestChannel.o
